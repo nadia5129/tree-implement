@@ -1,3 +1,8 @@
+import java.util.Queue;
+import java.util.Stack;
+import java.util.LinkedList;
+
+
 public class Traversal {
   public static void main(String[] args) {
     TreeNode<Integer> root = new TreeNode<>(10);
@@ -22,11 +27,25 @@ public class Traversal {
    stringRoot.right.right = new TreeNode<>("byby");
    stringRoot.right.right.right = new TreeNode<>("bb");
 
+
+   TreeNode<Integer> megaRoot = new TreeNode<Integer>(1);
+   TreeNode<Integer> current = megaRoot;
+
+   for( int i = 2; i < 100_001; i++){
+    current.right = new TreeNode<Integer>(i);
+    current = current.right;
+
+   }
+
+
+   levelOrder(root);
+  //  preorderIterative(root);
+   //preorder(megaRoot);
     //preorder(root);
     //postorder(root);
    // inorder(root);
   // printGreaterThan(root, 1);
-  System.out.println(countNodes(root));
+  //System.out.println(countNodes(root));
 
   }
 
@@ -53,11 +72,42 @@ public class Traversal {
 
   }
 
+  //iterative 
+  public static void preorderIterative(TreeNode<?> root){
+    Stack<TreeNode<?>> stack = new Stack<>();
+
+    stack.push(root);
+
+    while(!stack.isEmpty()){
+    TreeNode<?> current = stack.pop();
+    if(current == null) continue; //continue on to the next thing in the loop
+      // do something
+      System.out.println(current.data);
+      stack.push(current.right);
+      stack.push(current.left);
+    }
+  }
+
+  //level order
+  //use queue
+  public static void levelOrder(TreeNode<?> root){
+    Queue<TreeNode<?>> queue = new LinkedList<>();
+
+    queue.offer(root);
+    
+    while(!queue.isEmpty()){
+      TreeNode<?> current = queue.remove();
+      if(current == null) continue;
+      System.out.println(current.data);
+      queue.offer(current.left);
+      queue.offer(current.right);
+    }
+  }
+
   //this recurrsion allows us to loop 
   public static void preorder(TreeNode <?> current){
     if(current == null) return;
     System.out.println(current.data);
-
     //start process over but with left child
     preorder(current.left);
     //right child
